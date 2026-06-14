@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JerseyHub Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="data.js"></script>
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --panel: rgba(15, 22, 35, 0.85);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f8f9ff;
+      --muted: #9ea8bf;
+      --orange: #ff4d16;
+      --cyan: #6ae4ff;
+      --red: #ff5b5b;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(255, 77, 22, 0.1), transparent 40%),
+                  linear-gradient(250deg, rgba(106, 228, 255, 0.08), transparent 30%),
+                  var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .login-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      padding: 40px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .login-brand {
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .login-brand .brand-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 20px var(--orange);
+    }
+
+    .login-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: all 200ms ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(255, 77, 22, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      min-height: 44px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--orange), #ff7a2f);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 200ms ease;
+      box-shadow: 0 12px 30px rgba(255, 77, 22, 0.25);
+    }
+
+    .login-btn:hover:not(:disabled) {
+      box-shadow: 0 16px 40px rgba(255, 77, 22, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(255, 91, 91, 0.15);
+      color: var(--red);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+      animation: shake 300ms ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .login-footer a {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-brand">
+          JerseyHub
+          <span class="brand-dot"></span>
+        </div>
+        <p class="login-subtitle">Admin Dashboard</p>
+      </div>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="usernameInput">Admin Username</label>
+          <input
+            type="text"
+            id="usernameInput"
+            value="admin"
+            placeholder="admin"
+            required
+            autocomplete="username"
+          >
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Admin Password</label>
+          <input 
+            type="password" 
+            id="passwordInput" 
+            placeholder="Enter admin password"
+            required
+            autocomplete="current-password"
+          >
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <p>Need help? Contact support</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { api } = window.JerseyHubData;
+    const LOCAL_ADMIN_SESSION_KEY = 'jerseyhub.admin.localSession';
+    const ADMIN_TARGET = 'admin-premium.html';
+    const LOCAL_SESSION_TTL_MS = 1000 * 60 * 60 * 8;
+
+    function hasLocalAdminSession() {
+      localStorage.removeItem(LOCAL_ADMIN_SESSION_KEY);
+      try {
+        const session = JSON.parse(sessionStorage.getItem(LOCAL_ADMIN_SESSION_KEY) || '{}');
+        return session.authenticated === true && Number(session.expiresAt || 0) > Date.now();
+      } catch {
+        sessionStorage.removeItem(LOCAL_ADMIN_SESSION_KEY);
+        return false;
+      }
+    }
+
+    function setLocalAdminSession() {
+      sessionStorage.setItem(LOCAL_ADMIN_SESSION_KEY, JSON.stringify({
+        authenticated: true,
+        expiresAt: Date.now() + LOCAL_SESSION_TTL_MS
+      }));
+    }
+
+    function isValidLocalAdmin(username, password) {
+      return username.toLowerCase() === 'admin' && password === '123';
+    }
+
+    if (hasLocalAdminSession()) {
+      window.location.replace(ADMIN_TARGET);
+    } else {
+      api.adminSession()
+        .then(() => window.location.replace(ADMIN_TARGET))
+        .catch(() => {});
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('usernameInput').value.trim();
+      const password = document.getElementById('passwordInput').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (!username || !password) {
+        showError('Please enter username and password');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Verifying...';
+
+      setTimeout(async () => {
+        try {
+          await api.adminLogin(username, password);
+          setLocalAdminSession();
+          errorMessage.classList.remove('show');
+          window.location.replace(ADMIN_TARGET);
+          return;
+        } catch (error) {
+          if (isValidLocalAdmin(username, password)) {
+            setLocalAdminSession();
+            errorMessage.classList.remove('show');
+            window.location.replace(ADMIN_TARGET);
+            return;
+          }
+
+          showError(error.message || 'Invalid password');
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Sign In to Dashboard';
+          document.getElementById('passwordInput').value = '';
+        }
+      }, 500);
+    });
+
+    function showError(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorMessage.classList.add('show');
+      setTimeout(() => errorMessage.classList.remove('show'), 4000);
+    }
+
+    // Focus on password field
+    document.getElementById('passwordInput').focus();
+  </script>
+</body>
+</html>

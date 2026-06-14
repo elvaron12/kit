@@ -1,0 +1,1311 @@
+{
+  "products": [
+    {
+      "id": "real-madrid-home",
+      "name": "Real Madrid Home Jersey",
+      "club": "Real Madrid",
+      "clubId": "real-madrid",
+      "category": "home",
+      "images": [
+        "/assets/real-real-madrid.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 0,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T12:01:53.648Z",
+      "updatedAt": "2026-05-21T12:01:53.648Z"
+    },
+    {
+      "id": "real-madrid-away",
+      "name": "Real Madrid Away Jersey",
+      "club": "Real Madrid",
+      "clubId": "real-madrid",
+      "category": "away",
+      "images": [
+        "/assets/real-real-madrid.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 0,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T11:01:53.652Z",
+      "updatedAt": "2026-05-21T11:01:53.652Z"
+    },
+    {
+      "id": "real-madrid-retro",
+      "name": "Real Madrid Retro Jersey",
+      "club": "Real Madrid",
+      "clubId": "real-madrid",
+      "category": "retro",
+      "images": [
+        "/assets/real-real-madrid.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 1,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T10:01:53.652Z",
+      "updatedAt": "2026-05-21T10:01:53.652Z"
+    },
+    {
+      "id": "real-madrid-special",
+      "name": "Real Madrid Special Edition Jersey",
+      "club": "Real Madrid",
+      "clubId": "real-madrid",
+      "category": "special",
+      "images": [
+        "/assets/real-real-madrid.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 2,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T09:01:53.652Z",
+      "updatedAt": "2026-05-21T09:01:53.652Z"
+    },
+    {
+      "id": "real-madrid-training",
+      "name": "Real Madrid Training Jersey",
+      "club": "Real Madrid",
+      "clubId": "real-madrid",
+      "category": "training",
+      "images": [
+        "/assets/real-real-madrid.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 3,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T08:01:53.652Z",
+      "updatedAt": "2026-05-21T08:01:53.652Z"
+    },
+    {
+      "id": "barcelona-home",
+      "name": "Barcelona Home Jersey",
+      "club": "Barcelona",
+      "clubId": "barcelona",
+      "category": "home",
+      "images": [
+        "/assets/real-barcelona.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 0,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T07:01:53.652Z",
+      "updatedAt": "2026-05-21T07:01:53.652Z"
+    },
+    {
+      "id": "barcelona-away",
+      "name": "Barcelona Away Jersey",
+      "club": "Barcelona",
+      "clubId": "barcelona",
+      "category": "away",
+      "images": [
+        "/assets/real-barcelona.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 1,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T06:01:53.652Z",
+      "updatedAt": "2026-05-21T06:01:53.652Z"
+    },
+    {
+      "id": "barcelona-retro",
+      "name": "Barcelona Retro Jersey",
+      "club": "Barcelona",
+      "clubId": "barcelona",
+      "category": "retro",
+      "images": [
+        "/assets/real-barcelona.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 2,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T05:01:53.652Z",
+      "updatedAt": "2026-05-21T05:01:53.652Z"
+    },
+    {
+      "id": "barcelona-special",
+      "name": "Barcelona Special Edition Jersey",
+      "club": "Barcelona",
+      "clubId": "barcelona",
+      "category": "special",
+      "images": [
+        "/assets/real-barcelona.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 3,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T04:01:53.652Z",
+      "updatedAt": "2026-05-21T04:01:53.652Z"
+    },
+    {
+      "id": "barcelona-training",
+      "name": "Barcelona Training Jersey",
+      "club": "Barcelona",
+      "clubId": "barcelona",
+      "category": "training",
+      "images": [
+        "/assets/real-barcelona.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 4,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T03:01:53.652Z",
+      "updatedAt": "2026-05-21T03:01:53.652Z"
+    },
+    {
+      "id": "arsenal-home",
+      "name": "Arsenal Home Jersey",
+      "club": "Arsenal",
+      "clubId": "arsenal",
+      "category": "home",
+      "images": [
+        "/assets/real-arsenal.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 1,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T02:01:53.652Z",
+      "updatedAt": "2026-05-21T02:01:53.652Z"
+    },
+    {
+      "id": "arsenal-away",
+      "name": "Arsenal Away Jersey",
+      "club": "Arsenal",
+      "clubId": "arsenal",
+      "category": "away",
+      "images": [
+        "/assets/real-arsenal.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 19,
+      "sold": 3,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T01:01:53.652Z",
+      "updatedAt": "2026-06-04T12:34:45.218Z"
+    },
+    {
+      "id": "arsenal-retro",
+      "name": "Arsenal Retro Jersey",
+      "club": "Arsenal",
+      "clubId": "arsenal",
+      "category": "retro",
+      "images": [
+        "/assets/real-arsenal.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 10,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-21T00:01:53.652Z",
+      "updatedAt": "2026-06-04T12:35:20.918Z"
+    },
+    {
+      "id": "arsenal-special",
+      "name": "Arsenal Special Edition Jersey",
+      "club": "Arsenal",
+      "clubId": "arsenal",
+      "category": "special",
+      "images": [
+        "/assets/real-arsenal.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 4,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T23:01:53.652Z",
+      "updatedAt": "2026-05-20T23:01:53.652Z"
+    },
+    {
+      "id": "arsenal-training",
+      "name": "Arsenal Training Jersey",
+      "club": "Arsenal",
+      "clubId": "arsenal",
+      "category": "training",
+      "images": [
+        "/assets/real-arsenal.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T22:01:53.652Z",
+      "updatedAt": "2026-05-20T22:01:53.652Z"
+    },
+    {
+      "id": "psg-home",
+      "name": "Paris Saint-Germain Home Jersey",
+      "club": "Paris Saint-Germain",
+      "clubId": "psg",
+      "category": "home",
+      "images": [
+        "/assets/psg-wiki.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 2,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T21:01:53.652Z",
+      "updatedAt": "2026-05-20T21:01:53.652Z"
+    },
+    {
+      "id": "psg-away",
+      "name": "Paris Saint-Germain Away Jersey",
+      "club": "Paris Saint-Germain",
+      "clubId": "psg",
+      "category": "away",
+      "images": [
+        "/assets/psg-wiki.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 3,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T20:01:53.652Z",
+      "updatedAt": "2026-05-20T20:01:53.652Z"
+    },
+    {
+      "id": "psg-retro",
+      "name": "Paris Saint-Germain Retro Jersey",
+      "club": "Paris Saint-Germain",
+      "clubId": "psg",
+      "category": "retro",
+      "images": [
+        "/assets/psg-wiki.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 4,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T19:01:53.652Z",
+      "updatedAt": "2026-05-20T19:01:53.652Z"
+    },
+    {
+      "id": "psg-special",
+      "name": "Paris Saint-Germain Special Edition Jersey",
+      "club": "Paris Saint-Germain",
+      "clubId": "psg",
+      "category": "special",
+      "images": [
+        "/assets/psg-wiki.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T18:01:53.652Z",
+      "updatedAt": "2026-05-20T18:01:53.652Z"
+    },
+    {
+      "id": "psg-training",
+      "name": "Paris Saint-Germain Training Jersey",
+      "club": "Paris Saint-Germain",
+      "clubId": "psg",
+      "category": "training",
+      "images": [
+        "/assets/psg-wiki.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 6,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T17:01:53.652Z",
+      "updatedAt": "2026-05-20T17:01:53.652Z"
+    },
+    {
+      "id": "man-united-home",
+      "name": "Manchester United Home Jersey",
+      "club": "Manchester United",
+      "clubId": "man-united",
+      "category": "home",
+      "images": [
+        "/assets/real-manchester-united.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 3,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T16:01:53.652Z",
+      "updatedAt": "2026-05-20T16:01:53.652Z"
+    },
+    {
+      "id": "man-united-away",
+      "name": "Manchester United Away Jersey",
+      "club": "Manchester United",
+      "clubId": "man-united",
+      "category": "away",
+      "images": [
+        "/assets/real-manchester-united.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 4,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T15:01:53.652Z",
+      "updatedAt": "2026-05-20T15:01:53.652Z"
+    },
+    {
+      "id": "man-united-retro",
+      "name": "Manchester United Retro Jersey",
+      "club": "Manchester United",
+      "clubId": "man-united",
+      "category": "retro",
+      "images": [
+        "/assets/real-manchester-united.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T14:01:53.652Z",
+      "updatedAt": "2026-05-20T14:01:53.652Z"
+    },
+    {
+      "id": "man-united-special",
+      "name": "Manchester United Special Edition Jersey",
+      "club": "Manchester United",
+      "clubId": "man-united",
+      "category": "special",
+      "images": [
+        "/assets/real-manchester-united.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 6,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T13:01:53.652Z",
+      "updatedAt": "2026-05-20T13:01:53.652Z"
+    },
+    {
+      "id": "man-united-training",
+      "name": "Manchester United Training Jersey",
+      "club": "Manchester United",
+      "clubId": "man-united",
+      "category": "training",
+      "images": [
+        "/assets/real-manchester-united.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 7,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T12:01:53.652Z",
+      "updatedAt": "2026-05-20T12:01:53.652Z"
+    },
+    {
+      "id": "man-city-home",
+      "name": "Manchester City Home Jersey",
+      "club": "Manchester City",
+      "clubId": "man-city",
+      "category": "home",
+      "images": [
+        "/assets/real-manchester-city.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 23,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T11:01:53.652Z",
+      "updatedAt": "2026-05-25T14:42:50.995Z"
+    },
+    {
+      "id": "man-city-away",
+      "name": "Manchester City Away Jersey",
+      "club": "Manchester City",
+      "clubId": "man-city",
+      "category": "away",
+      "images": [
+        "/assets/real-manchester-city.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T10:01:53.652Z",
+      "updatedAt": "2026-05-20T10:01:53.652Z"
+    },
+    {
+      "id": "man-city-retro",
+      "name": "Manchester City Retro Jersey",
+      "club": "Manchester City",
+      "clubId": "man-city",
+      "category": "retro",
+      "images": [
+        "/assets/real-manchester-city.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 6,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T09:01:53.652Z",
+      "updatedAt": "2026-05-20T09:01:53.652Z"
+    },
+    {
+      "id": "man-city-special",
+      "name": "Manchester City Special Edition Jersey",
+      "club": "Manchester City",
+      "clubId": "man-city",
+      "category": "special",
+      "images": [
+        "/assets/real-manchester-city.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 7,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T08:01:53.652Z",
+      "updatedAt": "2026-05-20T08:01:53.652Z"
+    },
+    {
+      "id": "man-city-training",
+      "name": "Manchester City Training Jersey",
+      "club": "Manchester City",
+      "clubId": "man-city",
+      "category": "training",
+      "images": [
+        "/assets/real-manchester-city.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 8,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T07:01:53.652Z",
+      "updatedAt": "2026-05-20T07:01:53.652Z"
+    },
+    {
+      "id": "liverpool-home",
+      "name": "Liverpool Home Jersey",
+      "club": "Liverpool",
+      "clubId": "liverpool",
+      "category": "home",
+      "images": [
+        "/assets/real-liverpool.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 5,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T06:01:53.652Z",
+      "updatedAt": "2026-05-20T06:01:53.652Z"
+    },
+    {
+      "id": "liverpool-away",
+      "name": "Liverpool Away Jersey",
+      "club": "Liverpool",
+      "clubId": "liverpool",
+      "category": "away",
+      "images": [
+        "/assets/real-liverpool.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 6,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T05:01:53.652Z",
+      "updatedAt": "2026-05-20T05:01:53.652Z"
+    },
+    {
+      "id": "liverpool-retro",
+      "name": "Liverpool Retro Jersey",
+      "club": "Liverpool",
+      "clubId": "liverpool",
+      "category": "retro",
+      "images": [
+        "/assets/real-liverpool.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 7,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T04:01:53.652Z",
+      "updatedAt": "2026-05-20T04:01:53.652Z"
+    },
+    {
+      "id": "liverpool-special",
+      "name": "Liverpool Special Edition Jersey",
+      "club": "Liverpool",
+      "clubId": "liverpool",
+      "category": "special",
+      "images": [
+        "/assets/real-liverpool.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 8,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T03:01:53.652Z",
+      "updatedAt": "2026-05-20T03:01:53.652Z"
+    },
+    {
+      "id": "liverpool-training",
+      "name": "Liverpool Training Jersey",
+      "club": "Liverpool",
+      "clubId": "liverpool",
+      "category": "training",
+      "images": [
+        "/assets/real-liverpool.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 17,
+      "sold": 10,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T02:01:53.652Z",
+      "updatedAt": "2026-05-25T14:42:50.995Z"
+    },
+    {
+      "id": "bayern-home",
+      "name": "Bayern Munich Home Jersey",
+      "club": "Bayern Munich",
+      "clubId": "bayern",
+      "category": "home",
+      "images": [
+        "/assets/real-bayern.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 6,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T01:01:53.652Z",
+      "updatedAt": "2026-05-20T01:01:53.652Z"
+    },
+    {
+      "id": "bayern-away",
+      "name": "Bayern Munich Away Jersey",
+      "club": "Bayern Munich",
+      "clubId": "bayern",
+      "category": "away",
+      "images": [
+        "/assets/real-bayern.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 7,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-20T00:01:53.652Z",
+      "updatedAt": "2026-05-20T00:01:53.652Z"
+    },
+    {
+      "id": "bayern-retro",
+      "name": "Bayern Munich Retro Jersey",
+      "club": "Bayern Munich",
+      "clubId": "bayern",
+      "category": "retro",
+      "images": [
+        "/assets/real-bayern.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 8,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T23:01:53.652Z",
+      "updatedAt": "2026-05-19T23:01:53.652Z"
+    },
+    {
+      "id": "bayern-special",
+      "name": "Bayern Munich Special Edition Jersey",
+      "club": "Bayern Munich",
+      "clubId": "bayern",
+      "category": "special",
+      "images": [
+        "/assets/real-bayern.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 9,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T22:01:53.652Z",
+      "updatedAt": "2026-05-19T22:01:53.652Z"
+    },
+    {
+      "id": "bayern-training",
+      "name": "Bayern Munich Training Jersey",
+      "club": "Bayern Munich",
+      "clubId": "bayern",
+      "category": "training",
+      "images": [
+        "/assets/real-bayern.jpg"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 10,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T21:01:53.652Z",
+      "updatedAt": "2026-05-19T21:01:53.652Z"
+    },
+    {
+      "id": "chelsea-home",
+      "name": "Chelsea Home Jersey",
+      "club": "Chelsea",
+      "clubId": "chelsea",
+      "category": "home",
+      "images": [
+        "/assets/chelsea.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 24,
+      "sold": 7,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T20:01:53.652Z",
+      "updatedAt": "2026-05-19T20:01:53.652Z"
+    },
+    {
+      "id": "chelsea-away",
+      "name": "Chelsea Away Jersey",
+      "club": "Chelsea",
+      "clubId": "chelsea",
+      "category": "away",
+      "images": [
+        "/assets/chelsea.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 15000,
+      "stock": 20,
+      "sold": 8,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T19:01:53.652Z",
+      "updatedAt": "2026-05-19T19:01:53.652Z"
+    },
+    {
+      "id": "chelsea-retro",
+      "name": "Chelsea Retro Jersey",
+      "club": "Chelsea",
+      "clubId": "chelsea",
+      "category": "retro",
+      "images": [
+        "/assets/chelsea.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 17000,
+      "stock": 12,
+      "sold": 9,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T18:01:53.652Z",
+      "updatedAt": "2026-05-19T18:01:53.652Z"
+    },
+    {
+      "id": "chelsea-special",
+      "name": "Chelsea Special Edition Jersey",
+      "club": "Chelsea",
+      "clubId": "chelsea",
+      "category": "special",
+      "images": [
+        "/assets/chelsea.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 19000,
+      "stock": 5,
+      "sold": 10,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T17:01:53.652Z",
+      "updatedAt": "2026-05-19T17:01:53.652Z"
+    },
+    {
+      "id": "chelsea-training",
+      "name": "Chelsea Training Jersey",
+      "club": "Chelsea",
+      "clubId": "chelsea",
+      "category": "training",
+      "images": [
+        "/assets/chelsea.png"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "price": 14000,
+      "stock": 18,
+      "sold": 11,
+      "status": "active",
+      "featured": false,
+      "createdAt": "2026-05-19T16:01:53.652Z",
+      "updatedAt": "2026-05-19T16:01:53.652Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "JH-3654D8E3",
+      "customerName": "NTAGANIRAELVARON",
+      "phone": "0780000000",
+      "location": "KIGALI\nkigali",
+      "items": [
+        {
+          "productId": "man-city-home",
+          "name": "Manchester City Home Jersey",
+          "club": "Manchester City",
+          "clubId": "man-city",
+          "category": "home",
+          "size": "S",
+          "quantity": 1,
+          "price": 15000,
+          "lineTotal": 15000
+        },
+        {
+          "productId": "liverpool-training",
+          "name": "Liverpool Training Jersey",
+          "club": "Liverpool",
+          "clubId": "liverpool",
+          "category": "training",
+          "size": "XL",
+          "quantity": 1,
+          "price": 14000,
+          "lineTotal": 14000
+        }
+      ],
+      "totalPrice": 29000,
+      "paymentStatus": "pending",
+      "deliveryStatus": "pending",
+      "assignedRiderId": null,
+      "source": "storefront",
+      "notes": "",
+      "history": [
+        {
+          "id": "HIST-1D2F8448",
+          "type": "order_created",
+          "message": "Order placed from storefront",
+          "createdAt": "2026-05-25T14:42:50.995Z"
+        }
+      ],
+      "createdAt": "2026-05-25T14:42:50.995Z",
+      "updatedAt": "2026-05-25T14:42:50.995Z"
+    },
+    {
+      "id": "JH-57F13D61",
+      "customerName": "NTAGANIRAELVARON",
+      "phone": "0780000000",
+      "location": "KIGALI\nkigali",
+      "items": [
+        {
+          "productId": "arsenal-retro",
+          "name": "Arsenal Retro Jersey",
+          "club": "Arsenal",
+          "clubId": "arsenal",
+          "category": "retro",
+          "size": "S",
+          "quantity": 1,
+          "price": 17000,
+          "lineTotal": 17000
+        },
+        {
+          "productId": "arsenal-away",
+          "name": "Arsenal Away Jersey",
+          "club": "Arsenal",
+          "clubId": "arsenal",
+          "category": "away",
+          "size": "S",
+          "quantity": 1,
+          "price": 15000,
+          "lineTotal": 15000
+        }
+      ],
+      "totalPrice": 32000,
+      "paymentStatus": "pending",
+      "deliveryStatus": "pending",
+      "assignedRiderId": null,
+      "source": "storefront",
+      "notes": "",
+      "history": [
+        {
+          "id": "HIST-1785BB9B",
+          "type": "order_created",
+          "message": "Order placed from storefront",
+          "createdAt": "2026-06-04T12:34:45.220Z"
+        }
+      ],
+      "createdAt": "2026-06-04T12:34:45.220Z",
+      "updatedAt": "2026-06-04T12:34:45.220Z"
+    },
+    {
+      "id": "JH-B5027E91",
+      "customerName": "amanda",
+      "phone": "0783666742",
+      "location": "gikondo munsi yo kwa sine gerald",
+      "items": [
+        {
+          "productId": "arsenal-retro",
+          "name": "Arsenal Retro Jersey",
+          "club": "Arsenal",
+          "clubId": "arsenal",
+          "category": "retro",
+          "size": "S",
+          "quantity": 1,
+          "price": 17000,
+          "lineTotal": 17000
+        }
+      ],
+      "totalPrice": 17000,
+      "paymentStatus": "pending",
+      "deliveryStatus": "pending",
+      "assignedRiderId": null,
+      "source": "storefront",
+      "notes": "",
+      "history": [
+        {
+          "id": "HIST-FF05EBF2",
+          "type": "order_created",
+          "message": "Order placed from storefront",
+          "createdAt": "2026-06-04T12:35:20.918Z"
+        }
+      ],
+      "createdAt": "2026-06-04T12:35:20.918Z",
+      "updatedAt": "2026-06-04T12:35:20.918Z"
+    }
+  ],
+  "riders": [
+    {
+      "id": "RIDER-1001",
+      "name": "Jean Mutabazi",
+      "phone": "+250788100100",
+      "vehicleType": "moto",
+      "plateNumber": "RAD 421B",
+      "status": "active",
+      "assignedOrders": [],
+      "deliveryHistory": [],
+      "createdAt": "2026-05-21T12:01:53.652Z",
+      "updatedAt": "2026-05-21T12:01:53.652Z"
+    },
+    {
+      "id": "RIDER-1002",
+      "name": "Aline Uwase",
+      "phone": "+250789200200",
+      "vehicleType": "bike",
+      "plateNumber": "RAE 772C",
+      "status": "active",
+      "assignedOrders": [],
+      "deliveryHistory": [],
+      "createdAt": "2026-05-21T12:01:53.652Z",
+      "updatedAt": "2026-05-21T12:01:53.652Z"
+    }
+  ],
+  "sessions": {
+    "438a8695f9d47437949c7805053625263350048ab497471a86762246ecf4e41d": {
+      "authenticated": true,
+      "expiresAt": 1780602684698
+    }
+  },
+  "logs": [
+    {
+      "id": "LOG-E56BB0D6",
+      "type": "order_created",
+      "level": "info",
+      "message": "New order JH-B5027E91 from amanda",
+      "entityId": "JH-B5027E91",
+      "actor": "storefront",
+      "meta": {
+        "totalPrice": 17000,
+        "source": "storefront"
+      },
+      "createdAt": "2026-06-04T12:35:20.918Z"
+    },
+    {
+      "id": "LOG-BB95C92D",
+      "type": "order_created",
+      "level": "info",
+      "message": "New order JH-57F13D61 from NTAGANIRAELVARON",
+      "entityId": "JH-57F13D61",
+      "actor": "storefront",
+      "meta": {
+        "totalPrice": 32000,
+        "source": "storefront"
+      },
+      "createdAt": "2026-06-04T12:34:45.220Z"
+    },
+    {
+      "id": "LOG-FA8B5F86",
+      "type": "order_deleted",
+      "level": "warning",
+      "message": "Order deleted: JH-2FFA32A3",
+      "entityId": "JH-2FFA32A3",
+      "actor": "admin",
+      "meta": {},
+      "createdAt": "2026-06-04T11:32:07.138Z"
+    },
+    {
+      "id": "LOG-5C7DB2C2",
+      "type": "order_update",
+      "level": "info",
+      "message": "Order JH-2FFA32A3 updated: delivery pending -> confirmed, rider unassigned -> RIDER-2F575BC6",
+      "entityId": "JH-2FFA32A3",
+      "actor": "admin",
+      "meta": {
+        "changes": [
+          "delivery pending -> confirmed",
+          "rider unassigned -> RIDER-2F575BC6"
+        ]
+      },
+      "createdAt": "2026-06-04T11:32:07.126Z"
+    },
+    {
+      "id": "LOG-AB2AE36D",
+      "type": "order_created",
+      "level": "info",
+      "message": "New order JH-3654D8E3 from NTAGANIRAELVARON",
+      "entityId": "JH-3654D8E3",
+      "actor": "storefront",
+      "meta": {
+        "totalPrice": 29000,
+        "source": "storefront"
+      },
+      "createdAt": "2026-05-25T14:42:50.995Z"
+    }
+  ]
+}

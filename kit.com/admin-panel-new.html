@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JerseyHub Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <script src="data.js"></script>
+    <style>
+      :root {
+        --bg: #080807;
+        --sidebar: rgba(13, 12, 11, 0.92);
+        --panel: rgba(24, 23, 21, 0.84);
+        --panel-solid: #191714;
+        --panel-soft: rgba(255, 255, 255, 0.065);
+        --line: rgba(255, 255, 255, 0.12);
+        --line-strong: rgba(255, 255, 255, 0.22);
+        --text: #f8fafc;
+        --muted: #aab4c7;
+        --dim: #77849b;
+        --orange: #ff5a1f;
+        --cyan: #6de7ff;
+        --green: #35df95;
+        --gold: #f8c96a;
+        --red: #ff6767;
+        --violet: #a78bfa;
+        --radius: 8px;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Arial, sans-serif;
+        color: var(--text);
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+          radial-gradient(circle at 13% 5%, rgba(255, 90, 31, 0.16), transparent 30%),
+          radial-gradient(circle at 86% 2%, rgba(109, 231, 255, 0.14), transparent 28%),
+          linear-gradient(135deg, #080807, #151513 54%, #080807);
+        background-size: 44px 44px, 44px 44px, auto, auto, auto;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 24%),
+          radial-gradient(circle at center, transparent 0, rgba(0, 0, 0, 0.18) 70%);
+        z-index: -1;
+      }
+
+      button, input, select, textarea { font: inherit; }
+      button { cursor: pointer; }
+      [hidden] { display: none !important; }
+
+      .auth-locked .admin-shell { visibility: hidden; }
+
+      .admin-shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 288px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 26px;
+        padding: 26px 18px;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+          var(--sidebar);
+        backdrop-filter: blur(18px);
+        box-shadow: 24px 0 80px rgba(0, 0, 0, 0.28), inset -1px 0 0 rgba(255, 255, 255, 0.045);
+      }
+
+      .admin-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px 20px;
+        border-bottom: 1px solid var(--line);
+        font-size: 1.3rem;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .admin-brand span {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--orange);
+        box-shadow: 0 0 22px var(--orange), 0 0 0 7px rgba(255, 90, 31, 0.12);
+      }
+
+      .nav-title {
+        margin: 0 0 10px;
+        padding: 0 10px;
+        color: var(--dim);
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav-stack {
+        display: grid;
+        gap: 7px;
+      }
+
+      .nav-btn {
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 13px;
+        border: 1px solid transparent;
+        border-radius: var(--radius);
+        background: transparent;
+        color: var(--muted);
+        font-weight: 800;
+        text-align: left;
+        transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+      }
+
+      .nav-btn:hover,
+      .nav-btn.active {
+        color: #fff;
+        border-color: rgba(100, 223, 255, 0.35);
+        background:
+          linear-gradient(135deg, rgba(255, 90, 31, 0.18), rgba(109, 231, 255, 0.1)),
+          rgba(255, 255, 255, 0.055);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 12px 30px rgba(0, 0, 0, 0.18);
+        transform: translateX(2px);
+      }
+
+      .logout-wrap {
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .main {
+        min-width: 0;
+        padding: 34px;
+      }
+
+      .section { display: none; }
+      .section.active { display: block; animation: fadeIn 180ms ease both; }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .topbar {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+        padding: 0 0 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+      }
+
+      .topbar h1 {
+        margin: 0;
+        font-size: clamp(2.1rem, 4vw, 3.2rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .topbar p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        max-width: 66ch;
+        line-height: 1.6;
+      }
+
+      .toolbar,
+      .filters-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .btn {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--panel-soft);
+        color: var(--text);
+        font-weight: 800;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        border-color: var(--line-strong);
+        background: rgba(255, 255, 255, 0.09);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .btn.primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--orange), #ff8a45);
+        box-shadow: 0 14px 34px rgba(255, 90, 31, 0.25);
+      }
+
+      .btn.danger {
+        color: #ffd4d4;
+        border-color: rgba(255, 98, 98, 0.35);
+        background: rgba(255, 98, 98, 0.1);
+      }
+
+      .btn.success {
+        color: #bfffe2;
+        border-color: rgba(45, 219, 145, 0.35);
+        background: rgba(45, 219, 145, 0.1);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 15px;
+        margin-bottom: 24px;
+      }
+
+      .stat-card,
+      .panel {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+          var(--panel);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.075);
+        backdrop-filter: blur(18px);
+      }
+
+      .stat-card {
+        position: relative;
+        min-height: 132px;
+        display: grid;
+        align-content: space-between;
+        gap: 10px;
+        padding: 20px;
+        overflow: hidden;
+        animation: fadeIn 220ms ease both;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at top right, rgba(109, 231, 255, 0.16), transparent 44%),
+          linear-gradient(135deg, rgba(255, 90, 31, 0.08), transparent 40%);
+        pointer-events: none;
+      }
+
+      .stat-card::after {
+        content: "";
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 0;
+        height: 3px;
+        border-radius: 999px 999px 0 0;
+        background: linear-gradient(90deg, var(--orange), var(--cyan));
+        opacity: 0.72;
+      }
+
+      .stat-card span {
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        z-index: 1;
+      }
+
+      .stat-card strong {
+        position: relative;
+        font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+        line-height: 1;
+        z-index: 1;
+      }
+
+      .stat-card span {
+        position: relative;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 16px;
+      }
+
+      .activity-feed,
+      .timeline {
+        display: grid;
+        gap: 10px;
+      }
+
+      .activity-item,
+      .timeline-item {
+        display: grid;
+        gap: 5px;
+        padding: 13px 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      .activity-item strong,
+      .timeline-item strong {
+        color: #fff;
+        font-size: 0.9rem;
+      }
+
+      .activity-item span,
+      .timeline-item span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .panel {
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+
+      .panel-header {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 17px 19px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .panel-header h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .panel-body {
+        padding: 18px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 760px;
+      }
+
+      th,
+      td {
+        padding: 14px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      th {
+        color: #8e9ab0;
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      td:last-child {
+        white-space: nowrap;
+      }
+
+      td:last-child .btn + .btn {
+        margin-left: 8px;
+      }
+
+      .muted { color: var(--muted); }
+
+      .product-cell,
+      .rider-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .product-cell img {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.09);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .product-cell strong {
+        color: #fff;
+        line-height: 1.25;
+      }
+
+      .status-badge {
+        min-height: 28px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: rgba(100, 223, 255, 0.12);
+        color: #bff4ff;
+        font-size: 0.72rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .status-pending,
+      .status-preparing {
+        background: rgba(246, 198, 95, 0.12);
+        color: #ffe2a0;
+      }
+
+      .status-delivered,
+      .status-active,
+      .status-momo,
+      .status-cash {
+        background: rgba(45, 219, 145, 0.12);
+        color: #bfffe2;
+      }
+
+      .status-cancelled,
+      .status-returned,
+      .status-failed,
+      .status-inactive {
+        background: rgba(255, 98, 98, 0.12);
+        color: #ffc6c6;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.075);
+        color: #fff;
+        outline: none;
+        padding: 0 13px;
+      }
+
+      textarea {
+        min-height: 96px;
+        padding: 12px;
+        resize: vertical;
+      }
+
+      select option {
+        color: #111827;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: rgba(109, 231, 255, 0.72);
+        box-shadow: 0 0 0 4px rgba(109, 231, 255, 0.09);
+      }
+
+      .filters-row {
+        margin-bottom: 16px;
+      }
+
+      .filters-row input,
+      .filters-row select {
+        width: auto;
+        min-width: 170px;
+      }
+
+      .admin-dialog {
+        width: min(760px, calc(100% - 28px));
+        max-height: 90vh;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #11100f;
+        color: var(--text);
+        box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .admin-dialog::backdrop {
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(7px);
+      }
+
+      .dialog-form {
+        display: grid;
+      }
+
+      .dialog-header,
+      .dialog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dialog-footer {
+        justify-content: flex-end;
+        border-top: 1px solid var(--line);
+        border-bottom: 0;
+      }
+
+      .dialog-header h2 {
+        margin: 0;
+      }
+
+      .dialog-body {
+        display: grid;
+        gap: 16px;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .form-field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .form-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .toggle-row {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 800;
+      }
+
+      .toggle-row input {
+        width: auto;
+        min-height: auto;
+      }
+
+      .form-field label,
+      .field-label {
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 900;
+      }
+
+      .size-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .size-options label {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+        font-weight: 800;
+      }
+
+      .size-options input {
+        width: auto;
+        min-height: auto;
+      }
+
+      .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .image-preview img {
+        width: 78px;
+        height: 78px;
+        object-fit: contain;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .dropzone {
+        min-height: 112px;
+        display: grid;
+        place-items: center;
+        gap: 7px;
+        padding: 18px;
+        border: 1px dashed rgba(100, 223, 255, 0.44);
+        border-radius: var(--radius);
+        background: rgba(100, 223, 255, 0.055);
+        color: var(--muted);
+        text-align: center;
+        transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+      }
+
+      .dropzone.drag-over {
+        color: #fff;
+        border-color: var(--cyan);
+        background: rgba(100, 223, 255, 0.12);
+      }
+
+      .details-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .details-list article {
+        display: grid;
+        gap: 4px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .toast {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 80;
+        max-width: min(420px, calc(100% - 36px));
+        padding: 14px 16px;
+        border: 1px solid rgba(109, 231, 255, 0.28);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, rgba(25, 23, 20, 0.98), rgba(21, 31, 32, 0.98));
+        color: #fff;
+        box-shadow: var(--shadow);
+        transform: translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+
+      .metric-positive {
+        color: #bfffe5;
+      }
+
+      .metric-warning {
+        color: #ffe5a6;
+      }
+
+      .metric-danger {
+        color: #ffc4c4;
+      }
+
+      .catalog-summary {
+        display: grid;
+        gap: 8px;
+      }
+
+      .catalog-summary strong {
+        color: #fff;
+      }
+
+      .catalog-summary span {
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 1180px) {
+        .stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .dashboard-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 860px) {
+        .admin-shell { grid-template-columns: 1fr; }
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+        .main { padding: 20px; }
+        .topbar { display: grid; }
+        .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .form-grid { grid-template-columns: 1fr; }
+        .filters-row input,
+        .filters-row select,
+        .toolbar .btn { width: 100%; }
+      }
+
+      @media (max-width: 540px) {
+        .stats-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body class="auth-locked">
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="admin-shell">
+      <aside class="sidebar">
+        <div class="admin-brand">JerseyHub <span></span></div>
+        <nav>
+          <p class="nav-title">Admin</p>
+          <div class="nav-stack">
+            <button class="nav-btn active" type="button" data-section="dashboard">Dashboard <span>01</span></button>
+            <button class="nav-btn" type="button" data-section="orders">Orders <span>02</span></button>
+            <button class="nav-btn" type="button" data-section="products">Products <span>03</span></button>
+            <button class="nav-btn" type="button" data-section="riders">Riders <span>04</span></button>
+            <button class="nav-btn" type="button" data-section="logs">Logs <span>05</span></button>
+          </div>
+        </nav>
+        <div class="logout-wrap">
+          <button class="nav-btn" type="button" id="logoutBtn">Logout <span>Exit</span></button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="section active" id="dashboard">
+          <div class="topbar">
+            <div>
+              <h1>Dashboard</h1>
+              <p>Catalog health, inventory value, collection mix, and the latest product changes stored in this browser.</p>
+            </div>
+            <div class="toolbar">
+              <button class="btn" type="button" id="refreshBtn">Refresh</button>
+              <button class="btn primary" type="button" data-open-section="products">Manage Products</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card"><span>Total Jerseys</span><strong id="statOrders">0</strong></article>
+            <article class="stat-card"><span>Inventory Value</span><strong id="statSales">0 RWF</strong></article>
+            <article class="stat-card"><span>Low Stock</span><strong id="statPending">0</strong></article>
+            <article class="stat-card"><span>Active Listings</span><strong id="statDelivered">0</strong></article>
+            <article class="stat-card"><span>Featured</span><strong id="statRiders">0</strong></article>
+            <article class="stat-card"><span>Sold Out</span><strong id="statFailed">0</strong></article>
+            <article class="stat-card"><span>Average Price</span><strong id="statDaily">0 RWF</strong></article>
+            <article class="stat-card"><span>Club Coverage</span><strong id="statWeekly">0</strong></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Latest Jerseys</h2>
+                <button class="btn" type="button" data-open-section="products">View Catalog</button>
+              </div>
+              <div class="panel-body table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Jersey</th><th>Collection</th><th>Stock</th><th>Price</th><th>Status</th><th>Updated</th></tr>
+                  </thead>
+                  <tbody id="recentOrdersBody"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header"><h2>Collection Mix</h2></div>
+              <div class="panel-body table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Collection</th><th>Listings</th><th>Stock</th><th>Value</th></tr>
+                  </thead>
+                  <tbody id="riderPerformanceBody"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <h2>Catalog Signals</h2>
+                <button class="btn" type="button" data-open-section="products">Review</button>
+              </div>
+              <div class="panel-body">
+                <div class="activity-feed" id="activityFeed"></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="orders">
+          <div class="topbar">
+            <div>
+              <h1>Orders</h1>
+              <p>Update payment, delivery stage, cancellation, and rider assignment.</p>
+            </div>
+          </div>
+          <div class="filters-row">
+            <input id="orderSearch" type="search" placeholder="Search order, customer, phone" />
+            <select id="orderStatusFilter"><option value="">All statuses</option></select>
+            <select id="orderClubFilter"><option value="">All clubs</option></select>
+            <input id="orderDateFilter" type="date" />
+          </div>
+          <article class="panel">
+            <div class="panel-body table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Order</th><th>Customer</th><th>Club</th><th>Total</th><th>Payment</th><th>Delivery</th><th>Rider</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="products">
+          <div class="topbar">
+            <div>
+              <h1>Products</h1>
+              <p>Full jersey CRUD with device image upload, sizes, stock, and availability.</p>
+            </div>
+            <div class="toolbar">
+              <button class="btn primary" type="button" id="addProductBtn">Add Jersey</button>
+            </div>
+          </div>
+          <div class="filters-row">
+            <input id="productSearch" type="search" placeholder="Search products" />
+            <select id="productClubFilter"><option value="">All clubs</option></select>
+            <select id="productCategoryFilter"><option value="">All categories</option></select>
+            <select id="productStatusFilter"><option value="">All availability</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+          </div>
+          <article class="panel">
+            <div class="panel-body table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Jersey</th><th>Club</th><th>Category</th><th>Price</th><th>Stock</th><th>Sizes</th><th>Featured</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="productsTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="riders">
+          <div class="topbar">
+            <div>
+              <h1>Riders</h1>
+              <p>Motari delivery roster, active jobs, failed deliveries, and history.</p>
+            </div>
+            <div class="toolbar">
+              <button class="btn primary" type="button" id="addRiderBtn">Add Rider</button>
+            </div>
+          </div>
+          <div class="filters-row">
+            <input id="riderSearch" type="search" placeholder="Search rider, phone, plate" />
+          </div>
+          <article class="panel">
+            <div class="panel-body table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Rider</th><th>Phone</th><th>Vehicle</th><th>Plate</th><th>Assigned</th><th>Delivered</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="ridersTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="section" id="logs">
+          <div class="topbar">
+            <div>
+              <h1>Activity Logs</h1>
+              <p>Audit trail for order changes, failed deliveries, cancellations, products, riders, and payment issues.</p>
+            </div>
+          </div>
+          <div class="filters-row">
+            <input id="logSearch" type="search" placeholder="Search logs" />
+            <select id="logTypeFilter"><option value="">All log types</option></select>
+            <input id="logDateFilter" type="date" />
+          </div>
+          <article class="panel">
+            <div class="panel-body table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Time</th><th>Type</th><th>Level</th><th>Message</th><th>Entity</th></tr>
+                </thead>
+                <tbody id="logsTableBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="admin-dialog" id="productDialog">
+      <form class="dialog-form" id="productForm" method="dialog">
+        <input type="hidden" id="productId" />
+        <div class="dialog-header">
+          <h2 id="productDialogTitle">Add Jersey</h2>
+          <button class="btn" type="button" data-close-dialog="productDialog">Close</button>
+        </div>
+        <div class="dialog-body">
+          <div class="form-grid">
+            <div class="form-field full">
+              <label for="productName">Jersey name</label>
+              <input id="productName" required maxlength="120" />
+            </div>
+            <div class="form-field">
+              <label for="productClub">Club</label>
+              <select id="productClub" required></select>
+            </div>
+            <div class="form-field">
+              <label for="productCategory">Category</label>
+              <select id="productCategory" required></select>
+            </div>
+            <div class="form-field">
+              <label for="productPrice">Price (RWF)</label>
+              <input id="productPrice" type="number" min="0" step="500" required />
+            </div>
+            <div class="form-field">
+              <label for="productStock">Stock quantity</label>
+              <input id="productStock" type="number" min="0" step="1" required />
+            </div>
+            <div class="form-field">
+              <label for="productStatus">Availability</label>
+              <select id="productStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+            </div>
+            <div class="form-field">
+              <span class="field-label">Merchandising</span>
+              <label class="toggle-row"><input id="productFeatured" type="checkbox" /> Featured jersey</label>
+            </div>
+            <div class="form-field full">
+              <span class="field-label">Available sizes</span>
+              <div class="size-options" id="productSizes"></div>
+            </div>
+            <div class="form-field full">
+              <label for="productImages">Upload images from device</label>
+              <div class="dropzone" id="productDropzone">
+                <strong>Drop jersey images here</strong>
+                <span>or choose multiple images from your device</span>
+              </div>
+              <input id="productImages" type="file" accept="image/*" multiple />
+              <div class="image-preview" id="productImagePreview"></div>
+            </div>
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button class="btn danger" type="button" id="deleteProductBtn" hidden>Delete</button>
+          <button class="btn primary" type="submit" id="saveProductBtn">Save Jersey</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="admin-dialog" id="orderDialog">
+      <form class="dialog-form" id="orderForm" method="dialog">
+        <input type="hidden" id="orderId" />
+        <div class="dialog-header">
+          <h2>Order Details</h2>
+          <button class="btn" type="button" data-close-dialog="orderDialog">Close</button>
+        </div>
+        <div class="dialog-body">
+          <div id="orderDetails" class="details-list"></div>
+          <div id="orderTimeline" class="timeline"></div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="orderPaymentStatus">Payment status</label>
+              <select id="orderPaymentStatus"></select>
+            </div>
+            <div class="form-field">
+              <label for="orderDeliveryStatus">Delivery status</label>
+              <select id="orderDeliveryStatus"></select>
+            </div>
+            <div class="form-field full">
+              <label for="orderRider">Assigned rider</label>
+              <select id="orderRider"></select>
+            </div>
+            <div class="form-field full">
+              <label for="orderNotes">Admin notes</label>
+              <textarea id="orderNotes" maxlength="400"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button class="btn danger" type="button" id="deleteOrderBtn">Delete Order</button>
+          <button class="btn danger" type="button" id="markFailedBtn">Mark Failed</button>
+          <button class="btn success" type="button" id="markDeliveredBtn">Mark Delivered</button>
+          <button class="btn primary" type="submit">Update Order</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="admin-dialog" id="riderDialog">
+      <form class="dialog-form" id="riderForm" method="dialog">
+        <input type="hidden" id="riderId" />
+        <div class="dialog-header">
+          <h2 id="riderDialogTitle">Add Rider</h2>
+          <button class="btn" type="button" data-close-dialog="riderDialog">Close</button>
+        </div>
+        <div class="dialog-body">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="riderName">Full name</label>
+              <input id="riderName" required maxlength="100" />
+            </div>
+            <div class="form-field">
+              <label for="riderPhone">Phone number</label>
+              <input id="riderPhone" required maxlength="40" />
+            </div>
+            <div class="form-field">
+              <label for="riderVehicle">Vehicle type</label>
+              <select id="riderVehicle"></select>
+            </div>
+            <div class="form-field">
+              <label for="riderPlate">Vehicle plate number</label>
+              <input id="riderPlate" required maxlength="40" />
+            </div>
+            <div class="form-field">
+              <label for="riderStatus">Status</label>
+              <select id="riderStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select>
+            </div>
+          </div>
+          <div id="riderLog" class="details-list"></div>
+        </div>
+        <div class="dialog-footer">
+          <button class="btn danger" type="button" id="deleteRiderBtn" hidden>Delete</button>
+          <button class="btn primary" type="submit">Save Rider</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="admin-panel-controller.js"></script>
+  </body>
+</html>

@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JerseyHub - Premium Football Jerseys</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="Main navigation">
+        <a class="brand" href="#top">JerseyHub</a>
+        <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+          <a href="#shop">Collections</a>
+          <a href="#how">How It Works</a>
+          <a href="#track">Track Delivery</a>
+          <a href="#support">Support</a>
+          <button class="admin-link-btn" type="button" onclick="window.location.href='admin-login-new.html'" aria-label="Open admin login">Admin</button>
+        </div>
+        <div class="nav-actions">
+          <button class="cart-button" type="button" aria-label="Open cart">
+            <span class="cart-icon">Cart</span>
+            <span class="cart-count">0</span>
+          </button>
+          <button class="login-button" type="button">Login</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-glow hero-glow-one"></div>
+        <div class="hero-glow hero-glow-two"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-video-placeholder" aria-label="Premium football jerseys showcase"></div>
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow hero-eyebrow">Rwanda premium jersey delivery</p>
+            <h1 class="hero-title">Premium Football Jerseys</h1>
+            <p class="hero-subtitle">Shop authentic club jerseys from the world's elite teams. Home, Away, Retro, and Special editions. Free delivery across Rwanda with live tracking.</p>
+            <div class="hero-actions">
+              <a class="primary-btn" href="#shop">Shop by Club</a>
+              <a class="secondary-btn" href="#track">Track Order</a>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>8+</strong>
+              <span>Elite Clubs</span>
+            </div>
+            <div class="hero-stat">
+              <strong>112+</strong>
+              <span>Jersey Editions</span>
+            </div>
+            <div class="hero-stat">
+              <strong>24hr</strong>
+              <span>Fast Delivery</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip" aria-label="Store benefits">
+        <div><strong>MoMo ready</strong><span>Fast local confirmation</span></div>
+        <div><strong>Free delivery</strong><span>Across Rwanda</span></div>
+        <div><strong>Live tracking</strong><span>Simple order lookup</span></div>
+      </section>
+
+      <section class="shop-section" id="shop">
+        <div class="collection-heading">
+          <p class="eyebrow dark">Club collections</p>
+          <h2>Choose your club.</h2>
+          <p>Select a club to browse home, away, retro, and special edition jerseys in a clean grid layout.</p>
+        </div>
+
+        <div class="club-directory" id="clubDirectory" aria-label="Football clubs"></div>
+
+        <div class="club-page" id="clubPage" hidden>
+          <button class="back-to-clubs" type="button" id="backToClubs">Back to clubs</button>
+          <div class="club-spotlight" id="clubSpotlight" aria-live="polite"></div>
+          <div class="collection-tools">
+            <label class="collection-search">
+              <span class="search-icon" aria-hidden="true"></span>
+              <input id="searchInput" type="search" placeholder="Search this club collection..." />
+            </label>
+            <div class="filters" aria-label="Jersey categories">
+              <button class="filter active" type="button" data-filter="all">All</button>
+              <button class="filter" type="button" data-filter="home">Home</button>
+              <button class="filter" type="button" data-filter="away">Away</button>
+              <button class="filter" type="button" data-filter="retro">Retro</button>
+              <button class="filter" type="button" data-filter="special">Special</button>
+              <button class="filter" type="button" data-filter="training">Training</button>
+            </div>
+            <p class="result-count" id="resultCount">Showing 0 jerseys</p>
+          </div>
+          <div class="collection-stage" id="productGrid"></div>
+        </div>
+      </section>
+
+      <section class="how-section" id="how">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow dark">How it works</p>
+            <h2>Order in three clean steps</h2>
+          </div>
+        </div>
+        <div class="steps">
+          <article><span>1</span><h3>Pick your collection</h3><p>Choose a club, then select from home, away, retro, special, and training editions.</p></article>
+          <article><span>2</span><h3>Confirm MoMo</h3><p>Enter your phone and delivery address. We confirm payment before dispatch.</p></article>
+          <article><span>3</span><h3>Track delivery</h3><p>Use your order code to see the current delivery stage anytime.</p></article>
+        </div>
+      </section>
+
+      <section class="track-section" id="track">
+        <div class="track-card">
+          <div>
+            <p class="eyebrow">Track delivery</p>
+            <h2>Find your order status</h2>
+            <p>Try codes like <strong>JH-1024</strong>, <strong>JH-2048</strong>, or your new checkout code.</p>
+          </div>
+          <form id="trackForm" class="track-form">
+            <input id="trackInput" type="text" placeholder="Enter order code" autocomplete="off" />
+            <button class="primary-btn" type="submit">Track</button>
+          </form>
+          <div class="tracking-result" id="trackingResult" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="support-cards" id="support">
+        <article><h3>Size Guide</h3><p>Check our detailed fit chart before choosing your jersey.</p><a href="#size-guide" data-page="size">View Size Guide</a></article>
+        <article><h3>Returns & Delivery</h3><p>Learn about delivery timing, returns, and order handling.</p><a href="#returns" data-page="returns">Read Policy</a></article>
+        <article><h3>FAQs</h3><p>Answers for orders, payments, tracking, and jersey care.</p><a href="#faqs" data-page="faqs">View FAQs</a></article>
+      </section>
+
+      <section class="support-page" id="supportPage" hidden aria-live="polite"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <strong>JerseyHub</strong>
+          <p>A premium football jersey marketplace with MoMo checkout, local delivery, and live tracking.</p>
+        </div>
+        <div><h3>Shop</h3><a href="#shop">Choose Club</a><a href="#track">Track Order</a><a href="#size-guide" data-page="size">Size Guide</a></div>
+        <div><h3>Support</h3><a href="#faqs" data-page="faqs">FAQs</a><a href="#returns" data-page="returns">Returns & Delivery</a><a href="#size-guide" data-page="size">Size Guide</a><a href="#contact" data-page="contact">Contact</a></div>
+        <div><h3>Contact</h3><span>+250 7XX XXX XXX</span><span>WhatsApp: +250 7XX XXX XXX</span><span>hello@jerseyhub.rw</span></div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 JerseyHub. Pay easily with MoMo in Rwanda.</span>
+        <div><a href="#privacy" data-page="privacy">Privacy Policy</a><a href="#terms" data-page="terms">Terms of Service</a></div>
+      </div>
+    </footer>
+
+    <aside class="cart-drawer" aria-hidden="true">
+      <div class="drawer-header">
+        <h2>Your cart</h2>
+        <button class="close-cart" type="button" aria-label="Close cart">x</button>
+      </div>
+      <div class="cart-items"></div>
+      <div class="cart-empty">Your cart is empty.</div>
+      <div class="cart-summary">
+        <div><span>Subtotal</span><strong id="cartSubtotal">0 RWF</strong></div>
+        <div><span>Delivery</span><strong>FREE</strong></div>
+        <button class="checkout-btn" type="button">Checkout with MoMo</button>
+      </div>
+    </aside>
+    <div class="overlay"></div>
+
+    <dialog class="modal" id="checkoutModal">
+      <form method="dialog" class="checkout-form" id="checkoutForm">
+        <button class="modal-close" type="submit" value="close" aria-label="Close" formnovalidate>x</button>
+        <h2>MoMo checkout</h2>
+        <p>Your order code appears after confirmation.</p>
+        <label>Full name<input required name="name" minlength="2" maxlength="80" placeholder="Your name" /></label>
+        <label>MoMo phone<input required name="phone" inputmode="tel" pattern="^(\+?250|0)?7[2389][0-9]{7}$" placeholder="+250 7..." /></label>
+        <label>Delivery address<textarea required name="address" minlength="8" maxlength="220" placeholder="District, street, nearby landmark"></textarea></label>
+        <button class="primary-btn" value="confirm">Confirm Order</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="loginModal">
+      <form method="dialog" class="checkout-form">
+        <button class="modal-close" type="submit" value="close" aria-label="Close" formnovalidate>x</button>
+        <h2>Login</h2>
+        <p>Demo login for customer order history.</p>
+        <label>Phone or email<input required type="text" autocomplete="username" placeholder="you@example.com" /></label>
+        <label>Password<input required type="password" autocomplete="current-password" placeholder="Password" /></label>
+        <button class="primary-btn" value="login">Login</button>
+      </form>
+    </dialog>
+
+    <script src="data.js"></script>
+    <script src="script-new.js"></script>
+
+    <div id="chatAssistant" class="chat-assistant" style="display: none;">
+      <div class="chat-modal">
+        <div class="chat-header">
+          <div class="chat-title">
+            <span class="chat-icon" aria-hidden="true">AI</span>
+            <div>
+              <h3>Jersey AI</h3>
+              <p>Online support</p>
+            </div>
+          </div>
+          <button type="button" class="chat-close" aria-label="Close chat">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+
+        <div class="chat-input-area">
+          <form id="chatForm">
+            <input
+              type="text"
+              id="chatInput"
+              class="chat-input"
+              placeholder="Ask about jerseys, sizes, or orders..."
+              autocomplete="off"
+              maxlength="500"
+            />
+            <button type="submit" class="chat-send-btn" aria-label="Send message" title="Send">
+              <span aria-hidden="true">></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="chatTrigger" class="chat-trigger-btn" aria-label="Open chat assistant" title="Chat with Jersey AI">
+      <span class="chat-bubble-icon" aria-hidden="true">AI</span>
+      <span class="chat-badge" id="chatBadge" style="display: none;">1</span>
+    </button>
+
+    <style>
+      .chat-trigger-btn {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        width: 64px;
+        height: 64px;
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        border-radius: 50%;
+        background:
+          linear-gradient(135deg, rgba(36, 107, 254, 0.95), rgba(239, 35, 60, 0.92)),
+          #111827;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font: 800 17px/1 Inter, sans-serif;
+        box-shadow: 0 18px 48px rgba(17, 24, 39, 0.32), 0 0 0 7px rgba(36, 107, 254, 0.12);
+        z-index: 999;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .chat-trigger-btn:hover {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow: 0 24px 60px rgba(17, 24, 39, 0.38), 0 0 0 9px rgba(239, 35, 60, 0.12);
+      }
+
+      .chat-trigger-btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      .chat-bubble-icon {
+        letter-spacing: 0;
+      }
+
+      .chat-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #16a34a;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        border: 2px solid #fff;
+      }
+
+      .chat-assistant {
+        position: fixed;
+        right: 22px;
+        bottom: 98px;
+        width: min(440px, calc(100vw - 32px));
+        height: min(660px, calc(100vh - 126px));
+        min-height: 420px;
+        border-radius: 18px;
+        background: #101827;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(36, 107, 254, 0.16) inset;
+        overflow: hidden;
+        z-index: 999;
+        animation: chatPanelIn 0.22s ease-out;
+      }
+
+      .chat-modal {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+          #101827;
+      }
+
+      .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 16px;
+        background:
+          linear-gradient(135deg, rgba(36, 107, 254, 0.28), rgba(239, 35, 60, 0.22)),
+          rgba(8, 13, 24, 0.96);
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .chat-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .chat-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 0 22px rgba(36, 107, 254, 0.24);
+      }
+
+      .chat-title h3,
+      .chat-title p {
+        margin: 0;
+      }
+
+      .chat-title h3 {
+        font-size: 16px;
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      .chat-title p {
+        margin-top: 3px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.72);
+        font-weight: 600;
+      }
+
+      .chat-close {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        font-weight: 800;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .chat-close:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-1px);
+      }
+
+      .chat-messages {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          #0b1220;
+        background-size: 28px 28px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(36, 107, 254, 0.65) rgba(255, 255, 255, 0.06);
+      }
+
+      .chat-messages::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      .chat-messages::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .chat-messages::-webkit-scrollbar-thumb {
+        background: rgba(36, 107, 254, 0.7);
+        border-radius: 999px;
+      }
+
+      .chat-message {
+        display: flex;
+        width: 100%;
+        animation: chatMsgIn 0.18s ease-out;
+      }
+
+      .assistant-message {
+        justify-content: flex-start;
+      }
+
+      .user-message {
+        justify-content: flex-end;
+      }
+
+      .chat-bubble {
+        max-width: min(86%, 340px);
+        padding: 11px 14px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.48;
+        word-break: break-word;
+        white-space: pre-line;
+      }
+
+      .assistant-message .chat-bubble {
+        color: #e5edf8;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-bottom-left-radius: 5px;
+      }
+
+      .user-message .chat-bubble {
+        color: #fff;
+        background: linear-gradient(135deg, #246bfe, #ef233c);
+        border-bottom-right-radius: 5px;
+        box-shadow: 0 12px 30px rgba(36, 107, 254, 0.22);
+      }
+
+      .chat-product-card {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 12px;
+        padding: 10px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.94);
+        color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+      }
+
+      .chat-product-image {
+        width: 96px;
+        aspect-ratio: 1;
+        border-radius: 11px;
+        background: #eef2f7;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chat-product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .chat-product-info {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 0;
+      }
+ 
+      .chat-product-info .name {
+        font-size: 13px;
+        line-height: 1.28;
+        font-weight: 800;
+        color: #111827;
+      }
+
+      .chat-product-info .price {
+        font-size: 14px;
+        font-weight: 900;
+        color: #246bfe;
+      }
+
+      .chat-product-info .stock {
+        color: #52606f;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .chat-size-selector,
+      .chat-product-buttons,
+      .chat-quick-replies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .chat-size-btn,
+      .chat-quick-action {
+        border: 1px solid rgba(36, 107, 254, 0.22);
+        border-radius: 8px;
+        cursor: pointer;
+        font: 800 12px/1 Inter, sans-serif;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .chat-size-btn {
+        min-width: 34px;
+        height: 30px;
+        padding: 0 8px;
+        background: #f3f6fb;
+        color: #111827;
+      }
+
+      .chat-size-btn:hover,
+      .chat-size-btn.selected {
+        background: #111827;
+        color: #fff;
+        border-color: #111827;
+      }
+
+      .chat-quick-action {
+        min-height: 34px;
+        padding: 9px 11px;
+        background: #fff;
+        color: #163a8f;
+        flex: 1 1 auto;
+      }
+
+      .chat-product-buttons .chat-quick-action {
+        background: #111827;
+        color: #fff;
+        border-color: #111827;
+      }
+
+      .chat-quick-action:hover {
+        transform: translateY(-1px);
+        background: #246bfe;
+        color: #fff;
+        border-color: #246bfe;
+      }
+
+      .chat-input-area {
+        padding: 14px;
+        background: rgba(8, 13, 24, 0.97);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      #chatForm {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+      }
+
+      .chat-input {
+        flex: 1;
+        min-width: 0;
+        height: 46px;
+        padding: 0 15px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.92);
+        color: #111827;
+        font: 600 14px/1 Inter, sans-serif;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .chat-input:focus {
+        background: #fff;
+        border-color: #6ee7b7;
+        box-shadow: 0 0 0 4px rgba(110, 231, 183, 0.16);
+      }
+
+      .chat-input:disabled {
+        opacity: 0.68;
+        cursor: wait;
+      }
+
+      .chat-send-btn {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 0;
+        background: linear-gradient(135deg, #16a34a, #246bfe);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 900;
+        box-shadow: 0 12px 28px rgba(22, 163, 74, 0.25);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .chat-send-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px rgba(36, 107, 254, 0.28);
+      }
+
+      .chat-send-btn:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+
+      .chat-loading {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        width: fit-content;
+        padding: 13px 14px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .chat-loading span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #6ee7b7;
+        animation: chatTyping 0.9s ease-in-out infinite;
+      }
+
+      .chat-loading span:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+
+      .chat-loading span:nth-child(3) {
+        animation-delay: 0.24s;
+      }
+
+      @keyframes chatPanelIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes chatMsgIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes chatTyping {
+        0%, 100% {
+          transform: translateY(0);
+          opacity: 0.55;
+        }
+        50% {
+          transform: translateY(-5px);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .chat-trigger-btn {
+          right: 14px;
+          bottom: 14px;
+          width: 58px;
+          height: 58px;
+        }
+
+        .chat-assistant {
+          right: 10px;
+          bottom: 82px;
+          width: calc(100vw - 20px);
+          height: calc(100vh - 100px);
+          min-height: 0;
+          border-radius: 16px;
+        }
+
+        .chat-messages {
+          padding: 14px;
+        }
+
+        .chat-product-card {
+          grid-template-columns: 82px 1fr;
+        }
+
+        .chat-product-image {
+          width: 82px;
+        }
+      }
+    </style>
+
+    <script src="chat.js"></script>
+  </body>
+</html>

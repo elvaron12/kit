@@ -1,0 +1,13 @@
+Jersey image sources used for local demo assets:
+
+- PNGWing search and item pages: https://www.pngwing.com/en/search?q=soccer+jersey
+- FC Barcelona PNGWing item page: https://www.pngwing.com/en/free-png-ymkca
+- Manchester United PNGWing item page: https://www.pngwing.com/en/free-png-znfyj
+- Liverpool PNGWing item page: https://www.pngwing.com/en/free-png-vsnsf
+- Arsenal PNGWing item page: https://www.pngwing.com/en/free-png-nztdg
+- Real Madrid PNGWing item page: https://www.pngwing.com/en/free-png-ywnmn
+- Manchester City PNGWing item page: https://www.pngwing.com/en/free-png-vnqaq
+- Additional product images were fetched from PNGWing team-specific search pages.
+
+Hero image:
+- Cropped from user-provided reference screenshot and kept only for matching the requested starting screen.

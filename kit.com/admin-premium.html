@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JerseyHub Operations Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="data.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --sidebar: rgba(15, 15, 15, 0.95);
+      --panel: rgba(22, 22, 25, 0.9);
+      --panel-hover: rgba(28, 28, 33, 0.95);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.15);
+      --text: #f0f4f9;
+      --muted: #9ca3af;
+      --dim: #6b7280;
+      --orange: #ff6b35;
+      --cyan: #00d4ff;
+      --green: #10b981;
+      --purple: #8b5cf6;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --radius: 12px;
+      --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f1e 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body.auth-checking .sidebar,
+    body.auth-checking .main-content {
+      visibility: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ============ LAYOUT ============ */
+    .dashboard-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      gap: 32px;
+      overflow-y: auto;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(0, 212, 255, 0.1));
+      border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), #ff8c5c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+      transition: all var(--transition);
+      animation: floatingIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatingIcon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .brand:hover .brand-icon {
+      transform: scale(1.2) rotate(15deg);
+      box-shadow: 0 12px 32px rgba(255, 107, 53, 0.6);
+      animation: none;
+    }
+
+    .brand-text h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .nav-section h3 {
+      margin: 0 0 12px;
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+    }
+
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-btn {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(0, 212, 255, 0.15));
+      color: var(--text);
+      border-color: rgba(0, 212, 255, 0.3);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.1);
+    }
+
+    .nav-btn::before {
+      content: "";
+      width: 3px;
+      height: 20px;
+      border-radius: 0 2px 2px 0;
+      background: linear-gradient(to bottom, var(--orange), var(--cyan));
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .nav-btn.active::before {
+      opacity: 1;
+    }
+
+    .nav-icon {
+      font-size: 16px;
+      width: 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .nav-btn:hover .nav-icon {
+      transform: scale(1.2) rotate(-10deg);
+      color: var(--orange);
+      text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+    }
+
+    .nav-btn.active .nav-icon {
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .brand-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .nav-label {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .nav-badge {
+      background: rgba(255, 107, 53, 0.3);
+      color: #ff8c5c;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ============ MAIN CONTENT ============ */
+    .main-content {
+      margin-left: 280px;
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .page-title h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--text), var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-title-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .page-description {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 700px;
+    }
+
+    /* ============ BUTTONS ============ */
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      transition: all var(--transition);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+    }
+
+    .btn:hover i {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 16px 45px rgba(255, 107, 53, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .btn.primary i {
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .btn.primary:hover i {
+      animation: bounce 0.6s ease-in-out;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: rgba(139, 92, 246, 0.6);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25), inset 0 0 15px rgba(139, 92, 246, 0.05);
+      transform: translateY(-3px);
+    }
+
+    .btn.secondary:hover i {
+      animation: bounce 0.6s ease-in-out;
+      color: var(--purple);
+    }
+
+    .btn.danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+    }
+
+    .btn.danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.6);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .btn.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: #6ee7b7;
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    }
+
+    .btn.success:hover {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .btn-sm {
+      min-height: 36px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    /* ============ CARDS ============ */
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 500ms ease;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .card:hover {
+      border-color: var(--line-strong);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 212, 255, 0.05);
+      transform: translateY(-4px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* ============ STAT CARDS ============ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.08), rgba(0, 212, 255, 0.05));
+      position: relative;
+      overflow: hidden;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.15), transparent);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 300ms ease, transform 300ms ease;
+      transform: scale(0.8);
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), transparent);
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .stat-card:hover {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.12), rgba(0, 212, 255, 0.08));
+      border-color: var(--cyan);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 212, 255, 0.2), inset 0 0 20px rgba(0, 212, 255, 0.05);
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
+    }
+
+    .stat-card-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--dim);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-card-value {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .stat-card-trend {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-card-trend.positive { color: var(--green); }
+    .stat-card-trend.negative { color: var(--red); }
+    .stat-card-trend.neutral { color: var(--muted); }
+
+    .stat-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(0, 212, 255, 0.1));
+      font-size: 18px;
+      color: var(--orange);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .stat-card:hover .stat-icon {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(139, 92, 246, 0.2));
+      color: var(--cyan);
+      border-color: rgba(0, 212, 255, 0.6);
+      transform: scale(1.15) rotate(8deg);
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.4);
+    }
+
+    /* ============ CHARTS ============ */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .chart-container {
+      padding: 20px;
+    }
+
+    .chart-container canvas {
+      max-height: 300px;
+    }
+
+    /* ============ TABLES ============ */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      padding: 16px 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    td {
+      padding: 16px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    tbody tr {
+      transition: background var(--transition);
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* ============ BADGES ============ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge.status-pending { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+    .badge.status-confirmed { background: rgba(59, 130, 246, 0.15); color: #93c5fd; }
+    .badge.status-preparing { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; }
+    .badge.status-delivered { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+    .badge.status-failed { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .badge.status-cancelled { background: rgba(107, 114, 128, 0.15); color: #d1d5db; }
+
+    /* ============ FORMS ============ */
+    .form-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color 200ms ease;
+    }
+
+    .form-control {
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--cyan);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15), inset 0 0 10px rgba(0, 212, 255, 0.05);
+    }
+
+    .form-control:hover:not(:focus) {
+      border-color: rgba(0, 212, 255, 0.3);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    /* ============ DIALOGS ============ */
+    dialog {
+      width: min(600px, calc(100% - 40px));
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .dialog-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .dialog-body {
+      padding: 20px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .dialog-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    /* ============ TIMELINE ============ */
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+    }
+
+    .timeline-marker {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), #ff8c5c);
+      border: 2px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .timeline-marker.pending { background: rgba(245, 158, 11, 0.2); }
+    .timeline-marker.confirmed { background: rgba(59, 130, 246, 0.2); }
+    .timeline-marker.preparing { background: rgba(168, 85, 247, 0.2); }
+    .timeline-marker.delivered { background: rgba(16, 185, 129, 0.2); }
+    .timeline-marker.failed { background: rgba(239, 68, 68, 0.2); }
+
+    .timeline-content {
+      flex: 1;
+    }
+
+    .timeline-time {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeInUp 300ms ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============ ALERTS ============ */
+    .alert {
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .alert.info {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+
+    .alert.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: #f59e0b;
+      color: #fcd34d;
+    }
+
+    .alert.danger {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    .alert.success {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+      color: #6ee7b7;
+    }
+
+    /* ============ ACTIVITY FEED ============ */
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(0, 212, 255, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+      border: 1px solid rgba(255, 107, 53, 0.2);
+      transition: all var(--transition);
+      color: var(--orange);
+    }
+
+    .activity-item:hover .activity-icon {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(139, 92, 246, 0.15));
+      color: var(--cyan);
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1200px) {
+      .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-shell { grid-template-columns: 1fr; }
+      .sidebar { 
+        position: fixed;
+        left: -280px;
+        transition: left var(--transition);
+        z-index: 200;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+      }
+      .sidebar.open { left: 0; }
+      .main-content { 
+        margin-left: 0;
+        padding: 16px;
+      }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .page-title { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .page-title-actions { width: 100%; flex-direction: column; }
+      .page-title-actions .btn { width: 100%; }
+    }
+
+    /* ============ SCROLLBAR ============ */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { 
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="auth-checking">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="fas fa-crown"></i></div>
+      <div class="brand-text">
+        <h2>JerseyHub</h2>
+        <p>Operations</p>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-section">
+        <h3>Dashboard</h3>
+        <div class="nav-group">
+          <button class="nav-btn active" data-section="dashboard">
+            <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
+            <span class="nav-label">Overview</span>
+          </button>
+          <button class="nav-btn" data-section="analytics">
+            <span class="nav-icon"><i class="fas fa-analytics"></i></span>
+            <span class="nav-label">Analytics</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <h3>Operations</h3>
+        <div class="nav-group">
+          <button class="nav-btn" data-section="orders">
+            <span class="nav-icon"><i class="fas fa-box"></i></span>
+            <span class="nav-label">Orders</span>
+            <span class="nav-badge" id="orderBadge">0</span>
+          </button>
+          <button class="nav-btn" data-section="riders">
+            <span class="nav-icon"><i class="fas fa-motorcycle"></i></span>
+            <span class="nav-label">Riders</span>
+            <span class="nav-badge" id="riderBadge">0</span>
+          </button>
+          <button class="nav-btn" data-section="products">
+            <span class="nav-icon"><i class="fas fa-shirt"></i></span>
+            <span class="nav-label">Products</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <h3>Management</h3>
+        <div class="nav-group">
+          <button class="nav-btn" data-section="inventory">
+            <span class="nav-icon"><i class="fas fa-warehouse"></i></span>
+            <span class="nav-label">Inventory</span>
+          </button>
+          <button class="nav-btn" data-section="activity">
+            <span class="nav-icon"><i class="fas fa-list"></i></span>
+            <span class="nav-label">Activity Feed</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="nav-btn" id="logoutBtn">
+        <span class="nav-icon"><i class="fas fa-sign-out-alt"></i></span>
+        <span class="nav-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- DASHBOARD SECTION -->
+    <section class="section active" id="dashboard">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Dashboard</h1>
+            <p class="page-description">Real-time operations overview and key performance indicators</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn" id="refreshBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
+            <button class="btn primary" data-section="orders"><i class="fas fa-eye"></i> View Orders</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <!-- CHARTS ROW 1 -->
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-header">
+            <h2>Revenue Trend</h2>
+            <select class="form-control" id="revenueChartFilter" style="width: 120px; font-size: 13px;">
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="all">All Time</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Top Clubs</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="clubsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Order Status</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="orderStatusChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW 2 -->
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-header">
+            <h2>Delivery Performance</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="deliveryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Top Jerseys</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="jerseysChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Payment Methods</h2>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="paymentChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS ROW -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+        <button class="btn primary" style="justify-content: center; min-height: 50px;" id="quickAddProduct">
+          <i class="fas fa-plus"></i> <span>Add Product</span>
+        </button>
+        <button class="btn secondary" style="justify-content: center; min-height: 50px;" id="quickAddRider">
+          <i class="fas fa-user-plus"></i> <span>Add Rider</span>
+        </button>
+        <button class="btn secondary" style="justify-content: center; min-height: 50px;" id="quickCreateOrder">
+          <i class="fas fa-cart-plus"></i> <span>Manual Order</span>
+        </button>
+        <button class="btn secondary" style="justify-content: center; min-height: 50px;" id="quickRestock">
+          <i class="fas fa-exclamation-circle"></i> <span>Restock</span>
+        </button>
+      </div>
+
+      <!-- SUMMARY SECTION -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="card">
+          <div class="card-header">
+            <h2>Low Stock Alert</h2>
+          </div>
+          <div class="card-body">
+            <div id="lowStockList" style="display: grid; gap: 10px; max-height: 300px; overflow-y: auto;"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Recent Activity</h2>
+          </div>
+          <div class="card-body">
+            <div id="recentActivity" style="display: grid; gap: 10px; max-height: 300px; overflow-y: auto;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS SECTION -->
+    <section class="section" id="analytics">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Analytics & Reports</h1>
+            <p class="page-description">Detailed business intelligence and performance metrics</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn" id="exportReportBtn"><i class="fas fa-download"></i> Export Report</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-money-bill-wave"></i></span>
+            Total Revenue
+          </div>
+          <div class="stat-card-value" id="analyticsTotalRevenue">0</div>
+          <div class="stat-card-trend positive">↑ 12% this month</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-chart-bar"></i></span>
+            Average Order Value
+          </div>
+          <div class="stat-card-value" id="analyticsAOV">0</div>
+          <div class="stat-card-trend positive">↑ 8% this month</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-star"></i></span>
+            Customer Satisfaction
+          </div>
+          <div class="stat-card-value" id="analyticsSatisfaction">0%</div>
+          <div class="stat-card-trend positive">↑ 2% this month</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-bullseye"></i></span>
+            Conversion Rate
+          </div>
+          <div class="stat-card-value" id="analyticsConversion">0%</div>
+          <div class="stat-card-trend negative">↓ 3% this month</div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-header"><h2>Sales by Day</h2></div>
+          <div class="card-body"><div class="chart-container"><canvas id="salesByDayChart"></canvas></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Orders by Week</h2></div>
+          <div class="card-body"><div class="chart-container"><canvas id="ordersByWeekChart"></canvas></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Revenue by Club</h2></div>
+          <div class="card-body"><div class="chart-container"><canvas id="revenueByClubChart"></canvas></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDERS SECTION -->
+    <section class="section" id="orders">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Orders Management</h1>
+            <p class="page-description">Track, manage, and update all customer orders</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn primary" id="createOrderBtn">+ New Order</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div class="form-group">
+              <label>Search</label>
+              <input class="form-control" id="orderSearch" placeholder="Order ID, customer, phone..." />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control" id="orderStatusFilter">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="preparing">Preparing</option>
+                <option value="out-for-delivery">Out for Delivery</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Club</label>
+              <select class="form-control" id="orderClubFilter">
+                <option value="">All Clubs</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Rider</label>
+              <select class="form-control" id="orderRiderFilter">
+                <option value="">All Riders</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="table-container">
+            <table id="ordersTable">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Jersey</th>
+                  <th>Amount</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>Rider</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIDERS SECTION -->
+    <section class="section" id="riders">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Rider Management</h1>
+            <p class="page-description">Manage delivery riders and track performance</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn primary" id="addRiderBtn">+ Add Rider</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div class="form-group">
+              <label>Search</label>
+              <input class="form-control" id="riderSearch" placeholder="Name, phone, plate..." />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select class="form-control" id="riderStatusFilter">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="table-container">
+            <table id="ridersTable">
+              <thead>
+                <tr>
+                  <th>Rider</th>
+                  <th>Phone</th>
+                  <th>Vehicle</th>
+                  <th>Plate</th>
+                  <th>Active</th>
+                  <th>Delivered</th>
+                  <th>Failed</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ridersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="section" id="products">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Products & Inventory</h1>
+            <p class="page-description">Manage jersey catalog, stock levels, and availability</p>
+          </div>
+          <div class="page-title-actions">
+            <button class="btn primary" id="addProductBtn">+ Add Product</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div class="form-group">
+              <label>Search</label>
+              <input class="form-control" id="productSearch" placeholder="Jersey name..." />
+            </div>
+            <div class="form-group">
+              <label>Club</label>
+              <select class="form-control" id="productClubFilter">
+                <option value="">All Clubs</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Stock Status</label>
+              <select class="form-control" id="productStockFilter">
+                <option value="">All Products</option>
+                <option value="low">Low Stock</option>
+                <option value="out">Out of Stock</option>
+                <option value="good">Good Stock</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="table-container">
+            <table id="productsTable">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Club</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Sold</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVENTORY SECTION -->
+    <section class="section" id="inventory">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Inventory Management</h1>
+            <p class="page-description">Monitor stock levels, reorder points, and inventory value</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-box"></i></span>
+            Total Stock Units
+          </div>
+          <div class="stat-card-value" id="inventoryTotalUnits">0</div>
+          <div class="stat-card-trend positive">↑ 5% from last week</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-dollar-sign"></i></span>
+            Inventory Value
+          </div>
+          <div class="stat-card-value" id="inventoryValue">0</div>
+          <div class="stat-card-trend positive">↑ 8% from last week</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-triangle-exclamation"></i></span>
+            Low Stock Items
+          </div>
+          <div class="stat-card-value" id="inventoryLowStock">0</div>
+          <div class="stat-card-trend negative">↑ 2 items need attention</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">
+            <span class="stat-icon"><i class="fas fa-ban"></i></span>
+            Out of Stock
+          </div>
+          <div class="stat-card-value" id="inventoryOutOfStock">0</div>
+          <div class="stat-card-trend negative">↑ 1 item sold out</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Stock Levels by Club</h2>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="stockByClubChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <div class="card-header">
+          <h2>Low Stock Alert</h2>
+        </div>
+        <div class="card-body table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Club</th>
+                <th>Stock</th>
+                <th>Reorder Level</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="lowStockTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITY SECTION -->
+    <section class="section" id="activity">
+      <div class="page-header">
+        <div class="page-title">
+          <div>
+            <h1>Activity Feed</h1>
+            <p class="page-description">Real-time business events and operations log</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div id="activityFeed" style="display: grid; gap: 12px; max-height: 600px; overflow-y: auto;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ORDER DETAIL DIALOG -->
+  <dialog id="orderDetailDialog">
+    <div class="dialog-header">
+      <h2>Order Details</h2>
+      <button class="btn btn-sm" onclick="this.closest('dialog').close()">✕</button>
+    </div>
+    <div class="dialog-body">
+      <div id="orderDetailContent"></div>
+      <div style="margin-top: 20px;">
+        <h3 style="margin: 0 0 12px; color: var(--text);">Update Status</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <select class="form-control" id="updateOrderStatus">
+            <option value="">Select new status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="preparing">Preparing</option>
+            <option value="out-for-delivery">Out for Delivery</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select class="form-control" id="assignRider">
+            <option value="">Assign Rider</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn danger" id="cancelOrderBtn">Cancel Order</button>
+      <button class="btn primary" id="saveOrderBtn">Update Order</button>
+    </div>
+  </dialog>
+
+  <!-- RIDER DIALOG -->
+  <dialog id="riderDialog">
+    <div class="dialog-header">
+      <h2 id="riderDialogTitle">Add Rider</h2>
+      <button class="btn btn-sm" onclick="this.closest('dialog').close()">✕</button>
+    </div>
+    <div class="dialog-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input class="form-control" id="riderName" placeholder="Enter rider name" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input class="form-control" id="riderPhone" placeholder="e.g., +250 798 123 456" />
+      </div>
+      <div class="form-group">
+        <label>Vehicle Type</label>
+        <select class="form-control" id="riderVehicle">
+          <option value="">Select vehicle</option>
+          <option value="moto">Motorcycle</option>
+          <option value="bicycle">Bicycle</option>
+          <option value="bike">Bike</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>License Plate</label>
+        <input class="form-control" id="riderPlate" placeholder="e.g., RAJ-001" />
+      </div>
+      <div class="form-group">
+        <label>Plate Photo</label>
+        <input class="form-control" id="riderPlatePhoto" type="file" accept="image/*" />
+      </div>
+      <div class="form-group">
+        <label>Profile Photo</label>
+        <input class="form-control" id="riderProfilePhoto" type="file" accept="image/*" />
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn danger" id="deleteRiderBtn" hidden>Delete</button>
+      <button class="btn primary" id="saveRiderBtn">Save Rider</button>
+    </div>
+  </dialog>
+
+  <!-- PRODUCT DIALOG -->
+  <dialog id="productDialog">
+    <div class="dialog-header">
+      <h2 id="productDialogTitle">Add Product</h2>
+      <button class="btn btn-sm" onclick="this.closest('dialog').close()">✕</button>
+    </div>
+    <div class="dialog-body">
+      <div class="form-group">
+        <label>Jersey Name</label>
+        <input class="form-control" id="productName" placeholder="e.g., Real Madrid Home 2024" />
+      </div>
+      <div class="form-group">
+        <label>Club</label>
+        <select class="form-control" id="productClub"></select>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select class="form-control" id="productCategory">
+          <option value="home">Home</option>
+          <option value="away">Away</option>
+          <option value="retro">Retro</option>
+          <option value="special">Special Edition</option>
+          <option value="training">Training</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input class="form-control" id="productPrice" type="number" placeholder="Price in RWF" />
+      </div>
+      <div class="form-group">
+        <label>Stock Quantity</label>
+        <input class="form-control" id="productStock" type="number" placeholder="Total units" />
+      </div>
+      <div class="form-group">
+        <label>Stock by Size</label>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;">
+          <div><label style="font-size: 12px;">S</label><input class="form-control" id="stockS" type="number" placeholder="0" /></div>
+          <div><label style="font-size: 12px;">M</label><input class="form-control" id="stockM" type="number" placeholder="0" /></div>
+          <div><label style="font-size: 12px;">L</label><input class="form-control" id="stockL" type="number" placeholder="0" /></div>
+          <div><label style="font-size: 12px;">XL</label><input class="form-control" id="stockXL" type="number" placeholder="0" /></div>
+          <div><label style="font-size: 12px;">XXL</label><input class="form-control" id="stockXXL" type="number" placeholder="0" /></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Images</label>
+        <input class="form-control" id="productImages" type="file" accept="image/*" multiple />
+      </div>
+      <div class="form-group" style="margin-top: 20px;">
+        <label style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="productFeatured" />
+          Featured Jersey
+        </label>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn danger" id="deleteProductBtn" hidden>Delete</button>
+      <button class="btn primary" id="saveProductBtn">Save Product</button>
+    </div>
+  </dialog>
+
+  <!-- ORDER CREATION DIALOG -->
+  <dialog id="orderCreateDialog">
+    <div class="dialog-header">
+      <h2 id="orderCreateTitle">Create New Order</h2>
+      <button class="btn btn-sm" onclick="this.closest('dialog').close()">✕</button>
+    </div>
+    <div class="dialog-body" style="max-height: 70vh; overflow-y: auto;">
+      <h3 style="margin-top: 0; color: var(--text); font-size: 14px;">Customer Information</h3>
+      <div class="form-group">
+        <label>Customer Name *</label>
+        <input class="form-control" id="orderCustomerName" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input class="form-control" id="orderCustomerPhone" placeholder="+250 798 123 456" />
+      </div>
+      <div class="form-group">
+        <label>Delivery Address *</label>
+        <input class="form-control" id="orderDeliveryAddress" placeholder="Street, City" />
+      </div>
+      <div class="form-group">
+        <label>Special Notes</label>
+        <textarea class="form-control" id="orderNotes" placeholder="e.g., Handle with care" style="resize: vertical; min-height: 60px;"></textarea>
+      </div>
+
+      <h3 style="margin-top: 20px; color: var(--text); font-size: 14px;">Order Details</h3>
+      <div class="form-group">
+        <label>Club</label>
+        <select class="form-control" id="orderClubSelect" onchange="filterJerseysByClub()"></select>
+      </div>
+      <div class="form-group">
+        <label>Jersey *</label>
+        <select class="form-control" id="orderJerseySelect"></select>
+      </div>
+      <div class="form-group">
+        <label>Size</label>
+        <select class="form-control" id="orderSize">
+          <option value="S">S - Small</option>
+          <option value="M" selected>M - Medium</option>
+          <option value="L">L - Large</option>
+          <option value="XL">XL - Extra Large</option>
+          <option value="XXL">XXL - 2X Extra Large</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input class="form-control" id="orderQuantity" type="number" min="1" max="100" value="1" />
+      </div>
+
+      <h3 style="margin-top: 20px; color: var(--text); font-size: 14px;">Payment Information</h3>
+      <div class="form-group">
+        <label>Payment Method</label>
+        <select class="form-control" id="orderPaymentMethod">
+          <option value="momo">Mobile Money (MTN MoMo)</option>
+          <option value="cash">Cash on Delivery</option>
+          <option value="bank">Bank Transfer</option>
+        </select>
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn danger" id="deleteOrderBtn" hidden>Delete</button>
+      <button class="btn primary" onclick="saveOrderFromDialog()">Save Order</button>
+    </div>
+  </dialog>
+
+  <script src="admin-premium-controller.js"></script>
+</body>
+</html>
